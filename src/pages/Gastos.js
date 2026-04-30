@@ -35,28 +35,29 @@ const DATA = [
   },
 ];
 
-const renderItem = ({ item }) => (
-  <List.Item
-    title={`R$ ${item.valor.toFixed(2)} | Preço: R$ ${item.preco.toFixed(2)}`}
-    description={`Tipo: ${item.odometro} Km`}
-    left={(props) => (
-      <List.Icon
-        {...props}
-        color={item.tipo === 0 ? "red" : "green"}
-        icon="gas-station"
-      />
-    )}
-    right={(props) => (
-      <Text {...props} style={{ alignSelf: "center" }}>
-        {" "}
-        {item.data}
-      </Text>
-    )}
-  />
-);
-
 const Gastos = () => {
   const navigation = useNavigation();
+
+  const renderItem = ({ item }) => (
+    <List.Item
+      title={`R$ ${item.valor.toFixed(2)} | Preço: R$ ${item.preco.toFixed(2)}`}
+      description={`Tipo: ${item.odometro} Km`}
+      left={(props) => (
+        <List.Icon
+          {...props}
+          color={item.tipo === 0 ? "red" : "green"}
+          icon="gas-station"
+        />
+      )}
+      right={(props) => (
+        <Text {...props} style={{ alignSelf: "center" }}>
+          {" "}
+          {item.data}
+        </Text>
+      )}
+      onPress={() => navigation.navigate("Abastecimento", { item })}
+    />
+  );
 
   return (
     <Container>

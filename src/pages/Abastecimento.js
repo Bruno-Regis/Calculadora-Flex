@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, FlatList, View, TouchableOpacity } from "react-native";
 import { RadioButton, Text, TextInput, Button } from "react-native-paper";
 
@@ -12,8 +12,11 @@ import Container from "../components/Container";
 import Body from "../components/Body";
 import Input from "../components/Input";
 
-const Abastecimento = () => {
+const Abastecimento = ({ route }) => {
   const navigation = useNavigation();
+
+  const { item } = route.params ? route.params : {};
+
   const [tipo, setTipo] = useState("gas");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -22,6 +25,16 @@ const Abastecimento = () => {
   const [valor, setValor] = useState("");
   const [odometro, setOdometro] = useState("");
   const [data, setData] = useState("");
+
+  useEffect(() => {
+    if (item) {
+      setTipo(item.tipo === 0 ? "gas" : "eta");
+      setPreco(item.preco.toString());
+      setValor(item.valor.toString());
+      setOdometro(item.odometro.toString());
+      setData(item.data);
+    }
+  }, [item]);
 
   const handleSalvar = () => {
     // Lógica para salvar os dados do abastecimento
@@ -104,14 +117,16 @@ const Abastecimento = () => {
         />
       </Body>
 
-      <Button
-        style={styles.button}
-        mode="contained"
-        buttonColor="red"
-        onPress={handleSalvar}
-      >
-        Excluir
-      </Button>
+      {item && (
+        <Button
+          style={styles.button}
+          mode="contained"
+          buttonColor="red"
+          onPress={handleSalvar}
+        >
+          Excluir
+        </Button>
+      )}
 
       <Button style={styles.button} mode="contained" onPress={handleSalvar}>
         Salvar
